@@ -3,10 +3,18 @@ import React, { useState } from 'react';
 // =====================================================
 // KONFIGURATION
 // =====================================================
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw38nfScFJxFyroWPA_24YA9DSK9RX84ILT9_Bq_ItMCqhm4U4LZ_T2-mX_I34FO1PsSg/exec';
-// In der lokalen Entwicklung (Vite dev) Testmodus aktivieren, damit das Backend
-// (Apps Script) keine E-Mails versendet. In Production-Builds ist das automatisch false.
-const TEST_MODE = import.meta.env.DEV;
+const SCRIPT_URL =
+  import.meta.env.VITE_SCRIPT_URL ||
+  'https://script.google.com/macros/s/AKfycbw38nfScFJxFyroWPA_24YA9DSK9RX84ILT9_Bq_ItMCqhm4U4LZ_T2-mX_I34FO1PsSg/exec';
+
+// Testmodus steuert, ob das Backend (Apps Script) E-Mails/Folgetrigger überspringt.
+// Default: lokal (Vite dev) = true, Production-Build = false.
+// Override (z.B. Netlify): setze VITE_TEST_MODE=true (oder =false).
+const TEST_MODE = (() => {
+  const raw = import.meta.env.VITE_TEST_MODE;
+  if (raw === undefined) return import.meta.env.DEV;
+  return raw === 'true' || raw === '1';
+})();
 const PRICE_NEBEN = 400;
 const PRICE_HAUPT = 800;
 

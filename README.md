@@ -137,6 +137,25 @@ git push -u origin main
 4. **Build-Einstellungen werden automatisch erkannt** (durch `netlify.toml`)
    - Build command: `npm install && npm run build`
    - Publish directory: `dist`
+
+#### ✅ Testen auf Netlify ohne echte E-Mails (empfohlen)
+
+Damit du das Formular auf Netlify testen kannst, ohne dass das Apps Script echte E-Mails verschickt, setze in Netlify eine Environment Variable:
+
+- Name: `VITE_TEST_MODE`
+- Value: `true`
+
+Netlify Pfad: **Site settings → Build & deploy → Environment → Environment variables**
+
+Tipp: Setze diese Variable zuerst für **Deploy Previews** (oder Branch Deploys), damit deine Live-Production-Seite später wieder „normal“ senden kann.
+
+Optional (falls du die Apps-Script-URL ohne Code-Änderung wechseln willst):
+
+- Name: `VITE_SCRIPT_URL`
+- Value: `https://script.google.com/macros/s/.../exec`
+
+Nach dem Setzen: **Deploy neu anstoßen** (Redeploy / neuer Commit), damit der Build die Variablen übernimmt.
+
 5. **Deploy!** 🚀
 
 Nach wenigen Minuten ist deine App live!

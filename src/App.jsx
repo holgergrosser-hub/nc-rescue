@@ -876,7 +876,7 @@ export default function App() {
           <div style={styles.footerRow}>
             {!footerPhotoError ? (
               <img
-                src="/holger-grosser.png"
+                src="/holger-grosser.jpg"
                 alt="Profilfoto"
                 style={styles.footerPhoto}
                 loading="lazy"

@@ -17,8 +17,20 @@ const CONFIG = {
   COMPANY_NAME: 'Holger Grosser - QM-Dienstleistungen',
   COMPANY_ADDRESS: 'Simonstr. 14\n90763 Fürth',
   COMPANY_PHONE: '0911-49522541',
+  COMPANY_PHONE_TEL: '+4991149522541',
   COMPANY_EMAIL: 'holger.grosser@qm-guru.de',
   COMPANY_WEB: 'www.QM-Guru.de',
+};
+
+const BRAND = {
+  primary: '#03468F',
+  navy: '#102942',
+  text: '#323E4B',
+  border: '#D5E1F0',
+  bg: '#FAFBFC',
+  tint: '#E8EEFF',
+  cta: '#D6A920',
+  paper: '#FDF9F3',
 };
 
 // =====================================================
@@ -303,7 +315,7 @@ function createPDFAngebot(data) {
           </span>
         </p>
         
-        <p style="margin: 40px 0; padding: 20px; background-color: #f0f0f0; border-left: 4px solid #2563eb;">
+        <p style="margin: 40px 0; padding: 20px; background-color: #f0f0f0; border-left: 4px solid ${BRAND.primary};">
           <strong>Nächste Schritte:</strong><br>
           Ich melde mich nach der ersten Analyse, um das weitere Vorgehen zu besprechen.
         </p>
@@ -388,51 +400,51 @@ ${CONFIG.COMPANY_ADDRESS}
 ${CONFIG.COMPANY_WEB}`;
 
   const htmlBody = `
-  <div style="font-family: Arial, sans-serif; color:#0f172a; line-height:1.5; font-size:14px;">
+  <div style="font-family: Arial, sans-serif; color:${BRAND.navy}; line-height:1.5; font-size:14px;">
     <div style="max-width:720px; margin:0 auto; padding:24px;">
-      <div style="border:1px solid #e2e8f0; border-radius:14px; padding:18px 18px 14px; background:#ffffff;">
-        <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748b;">ISO 9001 Abweichungen: Einschätzung vom Profi</div>
+      <div style="border:1px solid ${BRAND.border}; border-radius:14px; padding:18px 18px 14px; background:#ffffff;">
+        <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:${BRAND.text};">ISO 9001 Abweichungen: Einschätzung vom Profi</div>
         <h2 style="margin:10px 0 6px; font-size:20px;">Schnelle, audit-sichere Unterstützung bei ISO&nbsp;9001 Abweichungen</h2>
-        <p style="margin:0 0 14px; color:#334155;">${anrede.replace(',', '')} – im Anhang finden Sie Ihr persönliches Angebot als PDF.</p>
+        <p style="margin:0 0 14px; color:${BRAND.text};">${anrede.replace(',', '')} – im Anhang finden Sie Ihr persönliches Angebot als PDF.</p>
 
         <div style="display:flex; gap:12px; flex-wrap:wrap; margin:14px 0 8px;">
-          <div style="flex:1; min-width:220px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:12px;">
-            <div style="color:#64748b; font-size:12px;">Umfang</div>
-            <div style="font-weight:700; font-size:14px;">${itemsText}${data.firma ? ` <span style="color:#64748b; font-weight:500;">(${data.firma})</span>` : ''}</div>
+          <div style="flex:1; min-width:220px; background:${BRAND.bg}; border:1px solid ${BRAND.border}; border-radius:12px; padding:12px;">
+            <div style="color:${BRAND.text}; font-size:12px;">Umfang</div>
+            <div style="font-weight:700; font-size:14px;">${itemsText}${data.firma ? ` <span style="color:${BRAND.text}; font-weight:500;">(${data.firma})</span>` : ''}</div>
           </div>
-          <div style="flex:1; min-width:220px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:12px;">
-            <div style="color:#2563eb; font-size:12px;">Festpreis</div>
-            <div style="font-weight:800; font-size:18px; color:#1d4ed8;">${formatCurrency(data.gesamt)} <span style="font-size:12px; font-weight:600; color:#2563eb;">inkl. MwSt.</span></div>
+          <div style="flex:1; min-width:220px; background:${BRAND.tint}; border:1px solid ${BRAND.border}; border-radius:12px; padding:12px;">
+            <div style="color:${BRAND.primary}; font-size:12px;">Festpreis</div>
+            <div style="font-weight:800; font-size:18px; color:${BRAND.navy};">${formatCurrency(data.gesamt)} <span style="font-size:12px; font-weight:600; color:${BRAND.primary};">inkl. MwSt.</span></div>
           </div>
         </div>
 
         <div style="margin:14px 0 10px;">
           <div style="font-weight:700; margin-bottom:6px;">Warum „ISO 9001 Abweichungen: Einschätzung vom Profi“</div>
-          <ul style="margin:0; padding-left:18px; color:#334155;">
+          <ul style="margin:0; padding-left:18px; color:${BRAND.text};">
             <li>Audit-sichere Einordnung im Normkontext (inkl. Auditorenblick)</li>
             <li>Ursachenlogik, die hält – statt reiner Symptombekämpfung</li>
             <li>Maßnahmen-Review: angemessen, wirksam, prüffähig dokumentiert</li>
           </ul>
         </div>
 
-        <div style="margin:14px 0 0; padding:12px; border-radius:12px; border:1px solid #e2e8f0; background:#ffffff;">
+        <div style="margin:14px 0 0; padding:12px; border-radius:12px; border:1px solid ${BRAND.border}; background:#ffffff;">
           <div style="font-weight:700; margin-bottom:6px;">Nächste Schritte</div>
-          <ol style="margin:0; padding-left:18px; color:#334155;">
+          <ol style="margin:0; padding-left:18px; color:${BRAND.text};">
             <li>Abweichungsbericht des Auditors</li>
             <li>Relevante QM-Dokumente (z.B. Handbuch / Prozesse)</li>
           </ol>
-          <p style="margin:10px 0 0; color:#334155;">Ich melde mich i.d.R. innerhalb von 24 Stunden mit der ersten Einschätzung und dem konkreten Vorgehen.</p>
+          <p style="margin:10px 0 0; color:${BRAND.text};">Ich melde mich i.d.R. innerhalb von 24 Stunden mit der ersten Einschätzung und dem konkreten Vorgehen.</p>
         </div>
 
-        <div style="margin-top:14px; padding-top:12px; border-top:1px solid #e2e8f0; color:#334155;">
+        <div style="margin-top:14px; padding-top:12px; border-top:1px solid ${BRAND.border}; color:${BRAND.text};">
           <div style="font-weight:700;">Direkt starten oder Rückfragen</div>
           <div style="margin:10px 0 12px;">
-            <a href="${mailtoHref}" style="display:inline-block; background:#2563eb; color:#ffffff; text-decoration:none; padding:10px 14px; border-radius:10px; font-weight:700;">Jetzt beauftragen</a>
+            <a href="${mailtoHref}" style="display:inline-block; background:${BRAND.cta}; color:${BRAND.navy}; text-decoration:none; padding:10px 14px; border-radius:10px; font-weight:800;">Jetzt beauftragen</a>
             <span style="display:inline-block; width:10px;"></span>
-            <a href="tel:${CONFIG.COMPANY_PHONE}" style="display:inline-block; background:#f8fafc; color:#0f172a; text-decoration:none; padding:10px 14px; border-radius:10px; border:1px solid #e2e8f0; font-weight:700;">Kurz anrufen</a>
+            <a href="tel:${CONFIG.COMPANY_PHONE_TEL}" style="display:inline-block; background:${BRAND.bg}; color:${BRAND.navy}; text-decoration:none; padding:10px 14px; border-radius:10px; border:1px solid ${BRAND.border}; font-weight:700;">Kurz anrufen</a>
           </div>
-          <div>Tel.: <a style="color:#2563eb; text-decoration:none;" href="tel:${CONFIG.COMPANY_PHONE}">${CONFIG.COMPANY_PHONE}</a> &nbsp;•&nbsp; E-Mail: <a style="color:#2563eb; text-decoration:none;" href="mailto:${CONFIG.COMPANY_EMAIL}">${CONFIG.COMPANY_EMAIL}</a></div>
-          <div style="margin-top:8px; color:#64748b; font-size:12px;">${CONFIG.COMPANY_NAME} • ${CONFIG.COMPANY_ADDRESS.replace(/\n/g, ' • ')} • <a style="color:#64748b; text-decoration:none;" href="https://${CONFIG.COMPANY_WEB}">${CONFIG.COMPANY_WEB}</a></div>
+          <div>Tel.: <a style="color:${BRAND.primary}; text-decoration:none;" href="tel:${CONFIG.COMPANY_PHONE_TEL}">${CONFIG.COMPANY_PHONE}</a> &nbsp;•&nbsp; E-Mail: <a style="color:${BRAND.primary}; text-decoration:none;" href="mailto:${CONFIG.COMPANY_EMAIL}">${CONFIG.COMPANY_EMAIL}</a></div>
+          <div style="margin-top:8px; color:${BRAND.text}; font-size:12px;">${CONFIG.COMPANY_NAME} • ${CONFIG.COMPANY_ADDRESS.replace(/\n/g, ' • ')} • <a style="color:${BRAND.text}; text-decoration:none;" href="https://${CONFIG.COMPANY_WEB}">${CONFIG.COMPANY_WEB}</a></div>
         </div>
       </div>
     </div>
@@ -596,26 +608,26 @@ ${CONFIG.COMPANY_ADDRESS}
 ${CONFIG.COMPANY_WEB}`;
 
   const htmlBody = `
-  <div style="font-family: Arial, sans-serif; color:#0f172a; line-height:1.5; font-size:14px;">
+  <div style="font-family: Arial, sans-serif; color:${BRAND.navy}; line-height:1.5; font-size:14px;">
     <div style="max-width:720px; margin:0 auto; padding:24px;">
-      <div style="border:1px solid #e2e8f0; border-radius:14px; padding:18px 18px 14px; background:#ffffff;">
-        <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748b;">ISO 9001 Abweichungen: Einschätzung vom Profi</div>
+      <div style="border:1px solid ${BRAND.border}; border-radius:14px; padding:18px 18px 14px; background:#ffffff;">
+        <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:${BRAND.text};">ISO 9001 Abweichungen: Einschätzung vom Profi</div>
         <h2 style="margin:10px 0 6px; font-size:18px;">Kurze Rückfrage zu Ihrer Anfrage</h2>
-        <p style="margin:0 0 12px; color:#334155;">${anrede.replace(',', '')}</p>
-        <p style="margin:0 0 12px; color:#334155;">${textBlocks[day].intro}</p>
-        <p style="margin:0 0 14px; color:#334155;">${textBlocks[day].ask}</p>
+        <p style="margin:0 0 12px; color:${BRAND.text};">${anrede.replace(',', '')}</p>
+        <p style="margin:0 0 12px; color:${BRAND.text};">${textBlocks[day].intro}</p>
+        <p style="margin:0 0 14px; color:${BRAND.text};">${textBlocks[day].ask}</p>
 
-        <div style="margin:12px 0 10px; padding:12px; border-radius:12px; border:1px solid #e2e8f0; background:#f8fafc;">
+        <div style="margin:12px 0 10px; padding:12px; border-radius:12px; border:1px solid ${BRAND.border}; background:${BRAND.bg};">
           <div style="font-weight:700; margin-bottom:8px;">Direkt starten</div>
-          <a href="${mailtoHref}" style="display:inline-block; background:#2563eb; color:#ffffff; text-decoration:none; padding:10px 14px; border-radius:10px; font-weight:700;">Jetzt beauftragen</a>
+          <a href="${mailtoHref}" style="display:inline-block; background:${BRAND.cta}; color:${BRAND.navy}; text-decoration:none; padding:10px 14px; border-radius:10px; font-weight:800;">Jetzt beauftragen</a>
           <span style="display:inline-block; width:10px;"></span>
-          <a href="tel:${CONFIG.COMPANY_PHONE}" style="display:inline-block; background:#ffffff; color:#0f172a; text-decoration:none; padding:10px 14px; border-radius:10px; border:1px solid #e2e8f0; font-weight:700;">Kurz anrufen</a>
-          <div style="margin-top:10px; color:#64748b; font-size:12px;">Oder antworten Sie einfach auf diese E-Mail mit „Bitte starten“.</div>
+          <a href="tel:${CONFIG.COMPANY_PHONE_TEL}" style="display:inline-block; background:#ffffff; color:${BRAND.navy}; text-decoration:none; padding:10px 14px; border-radius:10px; border:1px solid ${BRAND.border}; font-weight:700;">Kurz anrufen</a>
+          <div style="margin-top:10px; color:${BRAND.text}; font-size:12px;">Oder antworten Sie einfach auf diese E-Mail mit „Bitte starten“.</div>
         </div>
 
-        <div style="margin-top:14px; padding-top:12px; border-top:1px solid #e2e8f0; color:#334155;">
-          <div>Tel.: <a style="color:#2563eb; text-decoration:none;" href="tel:${CONFIG.COMPANY_PHONE}">${CONFIG.COMPANY_PHONE}</a> &nbsp;•&nbsp; E-Mail: <a style="color:#2563eb; text-decoration:none;" href="mailto:${CONFIG.COMPANY_EMAIL}">${CONFIG.COMPANY_EMAIL}</a></div>
-          <div style="margin-top:8px; color:#64748b; font-size:12px;">${CONFIG.COMPANY_NAME} • ${CONFIG.COMPANY_ADDRESS.replace(/\n/g, ' • ')} • <a style="color:#64748b; text-decoration:none;" href="https://${CONFIG.COMPANY_WEB}">${CONFIG.COMPANY_WEB}</a></div>
+        <div style="margin-top:14px; padding-top:12px; border-top:1px solid ${BRAND.border}; color:${BRAND.text};">
+          <div>Tel.: <a style="color:${BRAND.primary}; text-decoration:none;" href="tel:${CONFIG.COMPANY_PHONE_TEL}">${CONFIG.COMPANY_PHONE}</a> &nbsp;•&nbsp; E-Mail: <a style="color:${BRAND.primary}; text-decoration:none;" href="mailto:${CONFIG.COMPANY_EMAIL}">${CONFIG.COMPANY_EMAIL}</a></div>
+          <div style="margin-top:8px; color:${BRAND.text}; font-size:12px;">${CONFIG.COMPANY_NAME} • ${CONFIG.COMPANY_ADDRESS.replace(/\n/g, ' • ')} • <a style="color:${BRAND.text}; text-decoration:none;" href="https://${CONFIG.COMPANY_WEB}">${CONFIG.COMPANY_WEB}</a></div>
         </div>
       </div>
     </div>

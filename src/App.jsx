@@ -7,6 +7,10 @@ const SCRIPT_URL =
   import.meta.env.VITE_SCRIPT_URL ||
   'https://script.google.com/macros/s/AKfycbw38nfScFJxFyroWPA_24YA9DSK9RX84ILT9_Bq_ItMCqhm4U4LZ_T2-mX_I34FO1PsSg/exec';
 
+// In Production/Netlify senden wir über eine Netlify Function, damit CORS sauber ist
+// und wir echte Erfolgs-/Fehlermeldungen auswerten können.
+const SUBMIT_URL = import.meta.env.PROD ? '/.netlify/functions/submit' : SCRIPT_URL;
+
 // Testmodus steuert, ob das Backend (Apps Script) E-Mails/Folgetrigger überspringt.
 // Default: lokal (Vite dev) = true, Production-Build = false.
 // Override (z.B. Netlify): setze VITE_TEST_MODE=true (oder =false).
@@ -494,20 +498,51 @@ export default function App() {
     };
 
     try {
-      const response = await fetch(SCRIPT_URL, {
+      const isProd = import.meta.env.PROD;
+
+      const response = await fetch(SUBMIT_URL, {
         method: 'POST',
-        // Apps Script WebApps sind oft nicht CORS-freundlich (insb. Preflight/OPTIONS).
-        // Mit `no-cors` wird die Anfrage gesendet; die Response ist dann "opaque".
-        mode: 'no-cors',
+        ...(isProd
+          ? {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          : {
+              // Apps Script WebApps sind oft nicht CORS-freundlich (insb. Preflight/OPTIONS).
+              // Mit `no-cors` wird die Anfrage gesendet; die Response ist dann "opaque".
+              mode: 'no-cors',
+            }),
         body: JSON.stringify(payload),
       });
 
-      // Bei `no-cors` können wir den Status nicht lesen (opaque). Wenn die Anfrage
-      // ohne Exception rausging, behandeln wir das als Erfolg.
-      if (response.type === 'opaque' || response.ok) {
+      if (!isProd) {
+        // Bei `no-cors` können wir den Status nicht lesen (opaque). Wenn die Anfrage
+        // ohne Exception rausging, behandeln wir das als Erfolg.
+        if (response.type === 'opaque' || response.ok) {
+          setSubmitted(true);
+        } else {
+          alert('Es gab einen Fehler. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.');
+        }
+        return;
+      }
+
+      // Production (Netlify Function): wir können Status & JSON auswerten.
+      const text = await response.text();
+      let result;
+      try {
+        result = text ? JSON.parse(text) : undefined;
+      } catch {
+        result = undefined;
+      }
+
+      if (response.ok && (!result || result.success !== false)) {
         setSubmitted(true);
       } else {
-        alert('Es gab einen Fehler. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.');
+        const msg = result?.error
+          ? `Fehler: ${result.error}`
+          : 'Es gab einen Fehler. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.';
+        alert(msg);
       }
     } catch (error) {
       alert('Es gab einen Verbindungsfehler. Bitte versuchen Sie es erneut.');

@@ -3,6 +3,9 @@
   publish = "dist"
   environment = { NODE_VERSION = "18" }
 
+[functions]
+  directory = "netlify/functions"
+
 [dev]
   command = "npm run dev"
   port = 3000

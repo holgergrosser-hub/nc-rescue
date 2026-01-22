@@ -149,7 +149,18 @@ Netlify Pfad: **Site settings → Build & deploy → Environment → Environment
 
 Tipp: Setze diese Variable zuerst für **Deploy Previews** (oder Branch Deploys), damit deine Live-Production-Seite später wieder „normal“ senden kann.
 
-Optional (falls du die Apps-Script-URL ohne Code-Änderung wechseln willst):
+#### ✅ Live gehen (Production)
+
+Für den Live-Betrieb muss Netlify wissen, wohin die Anfrage serverseitig weitergeleitet wird (Netlify Function → Google Apps Script). Setze dafür:
+
+- Name: `APPS_SCRIPT_URL`
+- Value: `https://script.google.com/macros/s/.../exec`
+
+Und stelle sicher, dass **kein Testmodus aktiv** ist:
+
+- `VITE_TEST_MODE` löschen oder auf `false` setzen
+
+Optional/Legacy (falls du lieber den alten Namen nutzt – funktioniert ebenfalls):
 
 - Name: `VITE_SCRIPT_URL`
 - Value: `https://script.google.com/macros/s/.../exec`

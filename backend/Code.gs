@@ -163,10 +163,12 @@ function createPDFAngebot(data) {
           font-weight: bold;
         }
         .footer {
-          margin-top: 60px;
-          padding-top: 20px;
+          /* Fußzeile kompakter & höher (erste Zeile näher an die Trennlinie) */
+          margin-top: 28px;
+          padding-top: 8px;
           border-top: 1px solid #ddd;
           font-size: 9pt;
+          line-height: 1.25;
           color: #666;
         }
         .signature {
@@ -276,8 +278,7 @@ function createPDFAngebot(data) {
       <div class="footer">
         Holger Grosser • Simonstr. 14 • 90763 Fürth • Deutschland<br>
         Tel.: 0911-49522541 • Fax: 0911-49522548 • E-Mail: Holger.Grosser@QM-Guru.de<br>
-        USt-IdNr.: DE225320101 • www.QM-Guru.de<br>
-        Stadtsparkasse Fürth • BIC: BYLADEM1SFU • IBAN: DE81762500000000441972
+        USt-IdNr.: DE225320101 • www.QM-Guru.de • Stadtsparkasse Fürth • BIC: BYLADEM1SFU • IBAN: DE81762500000000441972
       </div>
       
       <!-- SEITE 2: CHECKLISTE -->
@@ -307,11 +308,10 @@ function createPDFAngebot(data) {
           Ich melde mich nach der ersten Analyse, um das weitere Vorgehen zu besprechen.
         </p>
         
-        <div class="footer" style="margin-top: 80px;">
+        <div class="footer" style="margin-top: 60px;">
           Holger Grosser • Simonstr. 14 • 90763 Fürth • Deutschland<br>
           Tel.: 0911-49522541 • Fax: 0911-49522548 • E-Mail: Holger.Grosser@QM-Guru.de<br>
-          USt-IdNr.: DE225320101 • www.QM-Guru.de<br>
-          Stadtsparkasse Fürth • BIC: BYLADEM1SFU • IBAN: DE81762500000000441972
+          USt-IdNr.: DE225320101 • www.QM-Guru.de • Stadtsparkasse Fürth • BIC: BYLADEM1SFU • IBAN: DE81762500000000441972
         </div>
       </div>
     </body>
@@ -330,43 +330,119 @@ function createPDFAngebot(data) {
 // 3. E-MAIL AN KUNDEN (mit PDF)
 // =====================================================
 function sendCustomerEmail(data, pdfBlob) {
-  const subject = '✅ Ihr Angebot für ISO 9001 Abweichungs-Unterstützung';
-  
-  const body = `
-Guten Tag${data.ansprechpartner ? ' ' + data.ansprechpartner : ''},
+  const subject = 'Ihr NC-Rescue Angebot: schnelle Audit-sichere Lösung (PDF im Anhang)';
 
-vielen Dank für Ihre Anfrage über NC-Rescue.
+  const items = [];
+  if (data.nebenCount > 0) items.push(`${data.nebenCount}× Nebenabweichung(en)`);
+  if (data.hauptCount > 0) items.push(`${data.hauptCount}× Hauptabweichung(en)`);
+  const itemsText = items.length ? items.join(' + ') : 'Abweichungen';
+  const anrede = data.ansprechpartner ? `Guten Tag ${data.ansprechpartner},` : 'Guten Tag,';
+  const firmaLine = data.firma ? ` (${data.firma})` : '';
 
-Im Anhang finden Sie Ihr persönliches Angebot:
-• ${data.nebenCount > 0 ? data.nebenCount + '× Nebenabweichungen' : ''}
-${data.nebenCount > 0 && data.hauptCount > 0 ? '• ' : ''}${data.hauptCount > 0 ? data.hauptCount + '× Hauptabweichungen' : ''}
+  const mailtoSubject = encodeURIComponent(`Beauftragung NC-Rescue – ${data.firma || data.email}`);
+  const mailtoBody = encodeURIComponent(
+    `Hallo Holger,\n\n` +
+    `hiermit beauftragen wir NC-Rescue gemäß Angebot (PDF im Anhang).\n\n` +
+    `Firma: ${data.firma || '-'}\n` +
+    `Ansprechpartner: ${data.ansprechpartner || '-'}\n` +
+    `E-Mail: ${data.email || '-'}\n` +
+    `Telefon: ${data.telefon || '-'}\n\n` +
+    `Umfang: ${itemsText}\n` +
+    `Festpreis: ${formatCurrency(data.gesamt)} (inkl. MwSt.)\n\n` +
+    `Bitte kurze Rückmeldung zum weiteren Vorgehen.\n\n` +
+    `Viele Grüße`
+  );
+  const mailtoHref = `mailto:${CONFIG.COMPANY_EMAIL}?subject=${mailtoSubject}&body=${mailtoBody}`;
 
-Gesamtpreis: ${formatCurrency(data.gesamt)} (inkl. MwSt.)
+  const bodyText = `${anrede}
 
-NÄCHSTE SCHRITTE:
-Nach Ihrer Beauftragung benötige ich:
-1. Den Abweichungsbericht des Auditors
-2. Ihre QM-Dokumentation (Handbuch, Prozesse)
+vielen Dank für Ihre Anfrage. Im Anhang erhalten Sie Ihr persönliches Angebot als PDF.
 
-Ich melde mich dann innerhalb von 24 Stunden für eine erste Einschätzung bei Ihnen.
+Kurzüberblick${firmaLine}:
+- Umfang: ${itemsText}
+- Festpreis: ${formatCurrency(data.gesamt)} (inkl. MwSt.)
 
-Bei Fragen erreichen Sie mich jederzeit:
-📞 ${CONFIG.COMPANY_PHONE}
-📧 ${CONFIG.COMPANY_EMAIL}
+Warum NC-Rescue:
+- Audit-sichere Einordnung (Normkontext & Auditorenblick)
+- Klare Ursachenlogik statt "Aktionismus"
+- Maßnahmen-Review: angemessen, wirksam, prüffähig
+
+So geht’s weiter (wenn Sie starten möchten):
+1) Abweichungsbericht des Auditors
+2) Relevante QM-Dokumente (z.B. Handbuch/Prozesse)
+
+Ich melde mich i.d.R. innerhalb von 24 Stunden mit der ersten Einschätzung und dem konkreten Vorgehen.
+
+Jetzt beauftragen (einfach kurz antworten: "Bitte starten"):
+${mailtoHref}
+
+Rückfragen:
+Tel.: ${CONFIG.COMPANY_PHONE}
+E-Mail: ${CONFIG.COMPANY_EMAIL}
 
 Mit freundlichen Grüßen
 Holger Grosser
 
----
 ${CONFIG.COMPANY_NAME}
 ${CONFIG.COMPANY_ADDRESS}
-${CONFIG.COMPANY_WEB}
-`;
+${CONFIG.COMPANY_WEB}`;
+
+  const htmlBody = `
+  <div style="font-family: Arial, sans-serif; color:#0f172a; line-height:1.5; font-size:14px;">
+    <div style="max-width:720px; margin:0 auto; padding:24px;">
+      <div style="border:1px solid #e2e8f0; border-radius:14px; padding:18px 18px 14px; background:#ffffff;">
+        <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748b;">NC-Rescue Angebot</div>
+        <h2 style="margin:10px 0 6px; font-size:20px;">Schnelle, audit-sichere Unterstützung bei ISO&nbsp;9001 Abweichungen</h2>
+        <p style="margin:0 0 14px; color:#334155;">${anrede.replace(',', '')} – im Anhang finden Sie Ihr persönliches Angebot als PDF.</p>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap; margin:14px 0 8px;">
+          <div style="flex:1; min-width:220px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:12px;">
+            <div style="color:#64748b; font-size:12px;">Umfang</div>
+            <div style="font-weight:700; font-size:14px;">${itemsText}${data.firma ? ` <span style="color:#64748b; font-weight:500;">(${data.firma})</span>` : ''}</div>
+          </div>
+          <div style="flex:1; min-width:220px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:12px;">
+            <div style="color:#2563eb; font-size:12px;">Festpreis</div>
+            <div style="font-weight:800; font-size:18px; color:#1d4ed8;">${formatCurrency(data.gesamt)} <span style="font-size:12px; font-weight:600; color:#2563eb;">inkl. MwSt.</span></div>
+          </div>
+        </div>
+
+        <div style="margin:14px 0 10px;">
+          <div style="font-weight:700; margin-bottom:6px;">Warum NC-Rescue</div>
+          <ul style="margin:0; padding-left:18px; color:#334155;">
+            <li>Audit-sichere Einordnung im Normkontext (inkl. Auditorenblick)</li>
+            <li>Ursachenlogik, die hält – statt reiner Symptombekämpfung</li>
+            <li>Maßnahmen-Review: angemessen, wirksam, prüffähig dokumentiert</li>
+          </ul>
+        </div>
+
+        <div style="margin:14px 0 0; padding:12px; border-radius:12px; border:1px solid #e2e8f0; background:#ffffff;">
+          <div style="font-weight:700; margin-bottom:6px;">Nächste Schritte</div>
+          <ol style="margin:0; padding-left:18px; color:#334155;">
+            <li>Abweichungsbericht des Auditors</li>
+            <li>Relevante QM-Dokumente (z.B. Handbuch / Prozesse)</li>
+          </ol>
+          <p style="margin:10px 0 0; color:#334155;">Ich melde mich i.d.R. innerhalb von 24 Stunden mit der ersten Einschätzung und dem konkreten Vorgehen.</p>
+        </div>
+
+        <div style="margin-top:14px; padding-top:12px; border-top:1px solid #e2e8f0; color:#334155;">
+          <div style="font-weight:700;">Direkt starten oder Rückfragen</div>
+          <div style="margin:10px 0 12px;">
+            <a href="${mailtoHref}" style="display:inline-block; background:#2563eb; color:#ffffff; text-decoration:none; padding:10px 14px; border-radius:10px; font-weight:700;">Jetzt beauftragen</a>
+            <span style="display:inline-block; width:10px;"></span>
+            <a href="tel:${CONFIG.COMPANY_PHONE}" style="display:inline-block; background:#f8fafc; color:#0f172a; text-decoration:none; padding:10px 14px; border-radius:10px; border:1px solid #e2e8f0; font-weight:700;">Kurz anrufen</a>
+          </div>
+          <div>Tel.: <a style="color:#2563eb; text-decoration:none;" href="tel:${CONFIG.COMPANY_PHONE}">${CONFIG.COMPANY_PHONE}</a> &nbsp;•&nbsp; E-Mail: <a style="color:#2563eb; text-decoration:none;" href="mailto:${CONFIG.COMPANY_EMAIL}">${CONFIG.COMPANY_EMAIL}</a></div>
+          <div style="margin-top:8px; color:#64748b; font-size:12px;">${CONFIG.COMPANY_NAME} • ${CONFIG.COMPANY_ADDRESS.replace(/\n/g, ' • ')} • <a style="color:#64748b; text-decoration:none;" href="https://${CONFIG.COMPANY_WEB}">${CONFIG.COMPANY_WEB}</a></div>
+        </div>
+      </div>
+    </div>
+  </div>`;
 
   MailApp.sendEmail({
     to: data.email,
     subject: subject,
-    body: body,
+    body: bodyText,
+    htmlBody: htmlBody,
     attachments: [pdfBlob]
   });
 }
@@ -375,30 +451,27 @@ ${CONFIG.COMPANY_WEB}
 // 4. BENACHRICHTIGUNG AN HOLGER
 // =====================================================
 function sendNotificationToHolger(data) {
-  const subject = '🔔 Neue NC-Rescue Anfrage';
-  
+  const subject = `Neue NC-Rescue Anfrage: ${data.firma || data.email}`;
+
   const body = `
-Neue Anfrage über NC-Rescue:
+Neue NC-Rescue Anfrage
 
-KUNDE:
-Firma: ${data.firma || '-'}
-Ansprechpartner: ${data.ansprechpartner || '-'}
-E-Mail: ${data.email}
-Telefon: ${data.telefon || '-'}
+Kontakt:
+- Firma: ${data.firma || '-'}
+- Ansprechpartner: ${data.ansprechpartner || '-'}
+- E-Mail: ${data.email}
+- Telefon: ${data.telefon || '-'}
 
-ABWEICHUNGEN:
-Nebenabweichungen: ${data.nebenCount} (${formatCurrency(data.nebenPreis)})
-Hauptabweichungen: ${data.hauptCount} (${formatCurrency(data.hauptPreis)})
-Gesamt: ${formatCurrency(data.gesamt)} (inkl. MwSt.)
+Umfang & Preis:
+- Nebenabweichungen: ${data.nebenCount} (${formatCurrency(data.nebenPreis)})
+- Hauptabweichungen: ${data.hauptCount} (${formatCurrency(data.hauptPreis)})
+- Gesamt: ${formatCurrency(data.gesamt)} (inkl. MwSt.)
 
-BESCHREIBUNG:
-${data.beschreibung || 'Keine Beschreibung angegeben'}
+Beschreibung:
+${data.beschreibung || '-'}
 
-Das Angebot wurde automatisch per E-Mail an den Kunden versendet.
-Nächste Schritte: Auf Abweichungsbericht und Dokumentation warten.
-
----
-Gesendet: ${formatDateTime(new Date())}
+Hinweis: Angebot (PDF) wurde automatisch an den Kunden versendet.
+Zeitstempel: ${formatDateTime(new Date())}
 `;
 
   MailApp.sendEmail({
@@ -474,48 +547,85 @@ function sendFollowUpEmail(data, day) {
     2: 'Benötigen Sie noch Unterstützung bei Ihrer Abweichung?',
     4: 'Letzte Erinnerung: Ihre ISO-9001-Abweichung'
   };
-  
-  const bodies = {
-    1: `
-Guten Tag${data.ansprechpartner ? ' ' + data.ansprechpartner : ''},
 
-gestern haben Sie über NC-Rescue ein Angebot für die Bearbeitung Ihrer ISO-9001-Abweichung angefragt.
+  const anrede = data.ansprechpartner ? `Guten Tag ${data.ansprechpartner},` : 'Guten Tag,';
+  const mailtoSubject = encodeURIComponent(`Beauftragung NC-Rescue – ${data.firma || data.email}`);
+  const mailtoBody = encodeURIComponent(
+    `Hallo Holger,\n\n` +
+    `hiermit beauftragen wir NC-Rescue. Bitte senden Sie mir die nächsten Schritte / benötigten Unterlagen.\n\n` +
+    `Firma: ${data.firma || '-'}\n` +
+    `Ansprechpartner: ${data.ansprechpartner || '-'}\n` +
+    `E-Mail: ${data.email || '-'}\n\n` +
+    `Viele Grüße`
+  );
+  const mailtoHref = `mailto:${CONFIG.COMPANY_EMAIL}?subject=${mailtoSubject}&body=${mailtoBody}`;
 
-Falls Sie Fragen haben oder das Angebot nicht erhalten haben, melden Sie sich gerne bei mir.
-
-Mit freundlichen Grüßen
-Holger Grosser
-Tel: ${CONFIG.COMPANY_PHONE}
-`,
-    2: `
-Guten Tag${data.ansprechpartner ? ' ' + data.ansprechpartner : ''},
-
-haben Sie bereits eine Entscheidung bezüglich der Unterstützung bei Ihrer ISO-9001-Abweichung getroffen?
-
-Ich stehe Ihnen gerne für Rückfragen zur Verfügung.
-
-Mit freundlichen Grüßen
-Holger Grosser
-Tel: ${CONFIG.COMPANY_PHONE}
-`,
-    4: `
-Guten Tag${data.ansprechpartner ? ' ' + data.ansprechpartner : ''},
-
-dies ist eine letzte freundliche Erinnerung zu Ihrer Anfrage.
-
-Falls Sie keine Unterstützung mehr benötigen, ist das natürlich kein Problem. 
-Ansonsten freue ich mich auf Ihre Rückmeldung.
-
-Mit freundlichen Grüßen
-Holger Grosser
-Tel: ${CONFIG.COMPANY_PHONE}
-`
+  const textBlocks = {
+    1: {
+      intro: 'gestern haben Sie über NC-Rescue ein Angebot für die Bearbeitung Ihrer ISO-9001-Abweichung angefragt.',
+      ask: 'Wenn Sie starten möchten, antworten Sie einfach kurz mit „Bitte starten“ – ich melde mich dann i.d.R. innerhalb von 24 Stunden mit der ersten Einschätzung.'
+    },
+    2: {
+      intro: 'kurze Rückfrage zu Ihrer Anfrage: Haben Sie sich schon entschieden, ob Sie Unterstützung bei der ISO-9001-Abweichung möchten?',
+      ask: 'Wenn Sie möchten, starten wir direkt: kurze Antwort mit „Bitte starten“ genügt.'
+    },
+    4: {
+      intro: 'letzte kurze Erinnerung zu Ihrer Anfrage.',
+      ask: 'Wenn das Thema erledigt ist, passt das natürlich. Falls Sie noch Unterstützung möchten, genügt eine kurze Antwort mit „Bitte starten“.'
+    }
   };
-  
+
+  const bodyText = `${anrede}
+
+${textBlocks[day].intro}
+
+${textBlocks[day].ask}
+
+Jetzt beauftragen:
+${mailtoHref}
+
+Rückfragen:
+Tel.: ${CONFIG.COMPANY_PHONE}
+E-Mail: ${CONFIG.COMPANY_EMAIL}
+
+Mit freundlichen Grüßen
+Holger Grosser
+
+${CONFIG.COMPANY_NAME}
+${CONFIG.COMPANY_ADDRESS}
+${CONFIG.COMPANY_WEB}`;
+
+  const htmlBody = `
+  <div style="font-family: Arial, sans-serif; color:#0f172a; line-height:1.5; font-size:14px;">
+    <div style="max-width:720px; margin:0 auto; padding:24px;">
+      <div style="border:1px solid #e2e8f0; border-radius:14px; padding:18px 18px 14px; background:#ffffff;">
+        <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748b;">NC-Rescue Follow-up</div>
+        <h2 style="margin:10px 0 6px; font-size:18px;">Kurze Rückfrage zu Ihrer Anfrage</h2>
+        <p style="margin:0 0 12px; color:#334155;">${anrede.replace(',', '')}</p>
+        <p style="margin:0 0 12px; color:#334155;">${textBlocks[day].intro}</p>
+        <p style="margin:0 0 14px; color:#334155;">${textBlocks[day].ask}</p>
+
+        <div style="margin:12px 0 10px; padding:12px; border-radius:12px; border:1px solid #e2e8f0; background:#f8fafc;">
+          <div style="font-weight:700; margin-bottom:8px;">Direkt starten</div>
+          <a href="${mailtoHref}" style="display:inline-block; background:#2563eb; color:#ffffff; text-decoration:none; padding:10px 14px; border-radius:10px; font-weight:700;">Jetzt beauftragen</a>
+          <span style="display:inline-block; width:10px;"></span>
+          <a href="tel:${CONFIG.COMPANY_PHONE}" style="display:inline-block; background:#ffffff; color:#0f172a; text-decoration:none; padding:10px 14px; border-radius:10px; border:1px solid #e2e8f0; font-weight:700;">Kurz anrufen</a>
+          <div style="margin-top:10px; color:#64748b; font-size:12px;">Oder antworten Sie einfach auf diese E-Mail mit „Bitte starten“.</div>
+        </div>
+
+        <div style="margin-top:14px; padding-top:12px; border-top:1px solid #e2e8f0; color:#334155;">
+          <div>Tel.: <a style="color:#2563eb; text-decoration:none;" href="tel:${CONFIG.COMPANY_PHONE}">${CONFIG.COMPANY_PHONE}</a> &nbsp;•&nbsp; E-Mail: <a style="color:#2563eb; text-decoration:none;" href="mailto:${CONFIG.COMPANY_EMAIL}">${CONFIG.COMPANY_EMAIL}</a></div>
+          <div style="margin-top:8px; color:#64748b; font-size:12px;">${CONFIG.COMPANY_NAME} • ${CONFIG.COMPANY_ADDRESS.replace(/\n/g, ' • ')} • <a style="color:#64748b; text-decoration:none;" href="https://${CONFIG.COMPANY_WEB}">${CONFIG.COMPANY_WEB}</a></div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
   MailApp.sendEmail({
     to: data.email,
     subject: subjects[day],
-    body: bodies[day]
+    body: bodyText,
+    htmlBody: htmlBody
   });
 }
 

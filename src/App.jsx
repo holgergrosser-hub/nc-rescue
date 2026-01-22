@@ -439,6 +439,38 @@ const styles = {
     color: '#64748b',
     fontSize: '14px',
   },
+  footerRow: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '14px',
+    marginBottom: '10px',
+  },
+  footerPhoto: {
+    width: '56px',
+    height: '56px',
+    objectFit: 'cover',
+    borderRadius: '12px',
+    border: '1px solid #e2e8f0',
+    backgroundColor: '#fff',
+  },
+  footerPhotoPlaceholder: {
+    width: '56px',
+    height: '56px',
+    borderRadius: '12px',
+    border: '1px solid #e2e8f0',
+    backgroundColor: '#f8fafc',
+    color: '#334155',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontWeight: '700',
+    letterSpacing: '0.04em',
+  },
+  footerText: {
+    textAlign: 'left',
+    lineHeight: '1.5',
+  },
   footerStrong: {
     color: '#1e293b',
     fontWeight: '600',
@@ -463,6 +495,7 @@ export default function App() {
   const [hauptCount, setHauptCount] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [footerPhotoError, setFooterPhotoError] = useState(false);
   
   const [formData, setFormData] = useState({
     firma: '',
@@ -828,14 +861,29 @@ export default function App() {
 
         {/* FOOTER */}
         <footer style={styles.footer}>
-          <p>
-            <span style={styles.footerStrong}>Holger Grosser</span><br />
-            QM-Dienstleistungen • Simonstr. 14 • 90763 Fürth<br />
-            Tel: 0911-49522541 • holger.grosser@qm-guru.de<br />
-            <a href="https://www.qm-guru.de" style={{color: '#2563eb', textDecoration: 'none'}}>
-              www.QM-Guru.de
-            </a>
-          </p>
+          <div style={styles.footerRow}>
+            {!footerPhotoError ? (
+              <img
+                src="/holger-grosser.png"
+                alt="Profilfoto"
+                style={styles.footerPhoto}
+                loading="lazy"
+                onError={() => setFooterPhotoError(true)}
+              />
+            ) : (
+              <div style={styles.footerPhotoPlaceholder} aria-label="Profilfoto">
+                HG
+              </div>
+            )}
+            <div style={styles.footerText}>
+              <div style={styles.footerStrong}>Holger Grosser</div>
+              <div>QM-Dienstleistungen • Simonstr. 14 • 90763 Fürth</div>
+              <div>Tel: 0911-49522541 • holger.grosser@qm-guru.de</div>
+              <a href="https://www.qm-guru.de" style={{color: '#2563eb', textDecoration: 'none'}}>
+                www.QM-Guru.de
+              </a>
+            </div>
+          </div>
         </footer>
       </div>
     </div>

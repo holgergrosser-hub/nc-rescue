@@ -1,4 +1,4 @@
-# 🆘 NC-Rescue - ISO 9001 Abweichungs-Unterstützung
+# 🆘 ISO 9001 Abweichungen: Einschätzung vom Profi
 
 Professionelle Landing Page und Kalkulator für ISO-9001-Abweichungs-Support mit automatischer PDF-Angebots-Generierung.
 

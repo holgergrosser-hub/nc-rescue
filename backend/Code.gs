@@ -1,5 +1,5 @@
 // =====================================================
-// NC-RESCUE - GOOGLE APPS SCRIPT BACKEND
+// ISO 9001 Abweichungen: Einschätzung vom Profi - GOOGLE APPS SCRIPT BACKEND
 // =====================================================
 // Diesen Code in Google Apps Script einfügen:
 // 1. Google Sheet öffnen
@@ -321,7 +321,7 @@ function createPDFAngebot(data) {
   // HTML zu PDF konvertieren
   const blob = Utilities.newBlob(html, 'text/html', 'angebot.html');
   const pdf = blob.getAs('application/pdf');
-  pdf.setName(`Angebot_NC-Rescue_${data.firma || 'Kunde'}.pdf`);
+  pdf.setName(`Angebot_ISO9001-Abweichungen_Einschaetzung-vom-Profi_${data.firma || 'Kunde'}.pdf`);
   
   return pdf;
 }
@@ -330,7 +330,7 @@ function createPDFAngebot(data) {
 // 3. E-MAIL AN KUNDEN (mit PDF)
 // =====================================================
 function sendCustomerEmail(data, pdfBlob) {
-  const subject = 'Ihr NC-Rescue Angebot: schnelle Audit-sichere Lösung (PDF im Anhang)';
+  const subject = 'Ihr Angebot: ISO 9001 Abweichungen – Einschätzung vom Profi (PDF im Anhang)';
 
   const items = [];
   if (data.nebenCount > 0) items.push(`${data.nebenCount}× Nebenabweichung(en)`);
@@ -339,10 +339,10 @@ function sendCustomerEmail(data, pdfBlob) {
   const anrede = data.ansprechpartner ? `Guten Tag ${data.ansprechpartner},` : 'Guten Tag,';
   const firmaLine = data.firma ? ` (${data.firma})` : '';
 
-  const mailtoSubject = encodeURIComponent(`Beauftragung NC-Rescue – ${data.firma || data.email}`);
+  const mailtoSubject = encodeURIComponent(`Beauftragung ISO 9001 Abweichungen – Einschätzung vom Profi – ${data.firma || data.email}`);
   const mailtoBody = encodeURIComponent(
     `Hallo Holger,\n\n` +
-    `hiermit beauftragen wir NC-Rescue gemäß Angebot (PDF im Anhang).\n\n` +
+    `hiermit beauftragen wir die Unterstützung „ISO 9001 Abweichungen: Einschätzung vom Profi“ gemäß Angebot (PDF im Anhang).\n\n` +
     `Firma: ${data.firma || '-'}\n` +
     `Ansprechpartner: ${data.ansprechpartner || '-'}\n` +
     `E-Mail: ${data.email || '-'}\n` +
@@ -362,7 +362,7 @@ Kurzüberblick${firmaLine}:
 - Umfang: ${itemsText}
 - Festpreis: ${formatCurrency(data.gesamt)} (inkl. MwSt.)
 
-Warum NC-Rescue:
+Warum „ISO 9001 Abweichungen: Einschätzung vom Profi“:
 - Audit-sichere Einordnung (Normkontext & Auditorenblick)
 - Klare Ursachenlogik statt "Aktionismus"
 - Maßnahmen-Review: angemessen, wirksam, prüffähig
@@ -391,7 +391,7 @@ ${CONFIG.COMPANY_WEB}`;
   <div style="font-family: Arial, sans-serif; color:#0f172a; line-height:1.5; font-size:14px;">
     <div style="max-width:720px; margin:0 auto; padding:24px;">
       <div style="border:1px solid #e2e8f0; border-radius:14px; padding:18px 18px 14px; background:#ffffff;">
-        <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748b;">NC-Rescue Angebot</div>
+        <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748b;">ISO 9001 Abweichungen: Einschätzung vom Profi</div>
         <h2 style="margin:10px 0 6px; font-size:20px;">Schnelle, audit-sichere Unterstützung bei ISO&nbsp;9001 Abweichungen</h2>
         <p style="margin:0 0 14px; color:#334155;">${anrede.replace(',', '')} – im Anhang finden Sie Ihr persönliches Angebot als PDF.</p>
 
@@ -407,7 +407,7 @@ ${CONFIG.COMPANY_WEB}`;
         </div>
 
         <div style="margin:14px 0 10px;">
-          <div style="font-weight:700; margin-bottom:6px;">Warum NC-Rescue</div>
+          <div style="font-weight:700; margin-bottom:6px;">Warum „ISO 9001 Abweichungen: Einschätzung vom Profi“</div>
           <ul style="margin:0; padding-left:18px; color:#334155;">
             <li>Audit-sichere Einordnung im Normkontext (inkl. Auditorenblick)</li>
             <li>Ursachenlogik, die hält – statt reiner Symptombekämpfung</li>
@@ -451,10 +451,10 @@ ${CONFIG.COMPANY_WEB}`;
 // 4. BENACHRICHTIGUNG AN HOLGER
 // =====================================================
 function sendNotificationToHolger(data) {
-  const subject = `Neue NC-Rescue Anfrage: ${data.firma || data.email}`;
+  const subject = `Neue Anfrage (ISO 9001 Abweichungen): ${data.firma || data.email}`;
 
   const body = `
-Neue NC-Rescue Anfrage
+Neue Anfrage: ISO 9001 Abweichungen
 
 Kontakt:
 - Firma: ${data.firma || '-'}
@@ -549,10 +549,10 @@ function sendFollowUpEmail(data, day) {
   };
 
   const anrede = data.ansprechpartner ? `Guten Tag ${data.ansprechpartner},` : 'Guten Tag,';
-  const mailtoSubject = encodeURIComponent(`Beauftragung NC-Rescue – ${data.firma || data.email}`);
+  const mailtoSubject = encodeURIComponent(`Beauftragung ISO 9001 Abweichungen – Einschätzung vom Profi – ${data.firma || data.email}`);
   const mailtoBody = encodeURIComponent(
     `Hallo Holger,\n\n` +
-    `hiermit beauftragen wir NC-Rescue. Bitte senden Sie mir die nächsten Schritte / benötigten Unterlagen.\n\n` +
+    `hiermit beauftragen wir die Unterstützung „ISO 9001 Abweichungen: Einschätzung vom Profi“. Bitte senden Sie mir die nächsten Schritte / benötigten Unterlagen.\n\n` +
     `Firma: ${data.firma || '-'}\n` +
     `Ansprechpartner: ${data.ansprechpartner || '-'}\n` +
     `E-Mail: ${data.email || '-'}\n\n` +
@@ -562,7 +562,7 @@ function sendFollowUpEmail(data, day) {
 
   const textBlocks = {
     1: {
-      intro: 'gestern haben Sie über NC-Rescue ein Angebot für die Bearbeitung Ihrer ISO-9001-Abweichung angefragt.',
+      intro: 'gestern haben Sie ein Angebot für die Bearbeitung Ihrer ISO-9001-Abweichung angefragt.',
       ask: 'Wenn Sie starten möchten, antworten Sie einfach kurz mit „Bitte starten“ – ich melde mich dann i.d.R. innerhalb von 24 Stunden mit der ersten Einschätzung.'
     },
     2: {
@@ -599,7 +599,7 @@ ${CONFIG.COMPANY_WEB}`;
   <div style="font-family: Arial, sans-serif; color:#0f172a; line-height:1.5; font-size:14px;">
     <div style="max-width:720px; margin:0 auto; padding:24px;">
       <div style="border:1px solid #e2e8f0; border-radius:14px; padding:18px 18px 14px; background:#ffffff;">
-        <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748b;">NC-Rescue Follow-up</div>
+        <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748b;">ISO 9001 Abweichungen: Einschätzung vom Profi</div>
         <h2 style="margin:10px 0 6px; font-size:18px;">Kurze Rückfrage zu Ihrer Anfrage</h2>
         <p style="margin:0 0 12px; color:#334155;">${anrede.replace(',', '')}</p>
         <p style="margin:0 0 12px; color:#334155;">${textBlocks[day].intro}</p>

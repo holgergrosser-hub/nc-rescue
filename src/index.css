@@ -5,14 +5,22 @@
 }
 
 :root {
-  --primary: #2563eb;
-  --primary-dark: #1e40af;
-  --secondary: #64748b;
-  --success: #10b981;
-  --text-dark: #1e293b;
-  --text-light: #64748b;
-  --bg-gray: #f8fafc;
-  --border-gray: #e2e8f0;
+  /* QM-Guru Palette */
+  --primary: #03468f;      /* Blau */
+  --primary-dark: #102942; /* Dunkelblau */
+  --secondary: #323e4b;    /* Text/Sekundär */
+  --success: #00d68a;
+  --danger: #e22020;
+
+  --cta: #d6a920;          /* Gold (Buttons) */
+  --cta-soft: #c8a028;
+  --cta-text: #102942;
+
+  --text-dark: #102942;
+  --text-light: #323e4b;
+  --bg-gray: #fafbfc;
+  --bg-tint: #e8eeff;
+  --border-gray: #d5e1f0;
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);

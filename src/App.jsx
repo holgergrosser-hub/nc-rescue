@@ -22,6 +22,13 @@ const TEST_MODE = (() => {
 const PRICE_NEBEN = 400;
 const PRICE_HAUPT = 800;
 
+const CONTACT = {
+  phoneDisplay: '0911-49522541',
+  phoneHref: 'tel:+4991149522541',
+  email: 'holger.grosser@qm-guru.de',
+  website: 'https://www.qm-guru.de',
+};
+
 // =====================================================
 // KOMPONENTE: Anzahl-Wähler
 // =====================================================
@@ -109,7 +116,7 @@ function AnzahlWaehler({ label, subtitle, value, onChange, preis, color }) {
 const styles = {
   page: {
     minHeight: '100vh',
-    background: 'linear-gradient(to bottom, #f8fafc 0%, #e2e8f0 100%)',
+    background: 'linear-gradient(to bottom, var(--bg-gray) 0%, var(--bg-tint) 100%)',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     padding: '40px 20px',
   },
@@ -131,13 +138,13 @@ const styles = {
   title: {
     fontSize: '36px',
     fontWeight: '700',
-    color: '#1e293b',
+    color: 'var(--text-dark)',
     marginBottom: '12px',
     lineHeight: '1.2',
   },
   subtitle: {
     fontSize: '18px',
-    color: '#64748b',
+    color: 'var(--text-light)',
     maxWidth: '600px',
     margin: '0 auto',
   },
@@ -154,11 +161,11 @@ const styles = {
     fontSize: '20px',
     fontWeight: '600',
     marginBottom: '16px',
-    color: '#1e293b',
+    color: 'var(--text-dark)',
   },
   infoText: {
     fontSize: '15px',
-    color: '#475569',
+    color: 'var(--secondary)',
     lineHeight: '1.6',
     marginBottom: '12px',
   },
@@ -169,7 +176,7 @@ const styles = {
   },
   infoListItem: {
     fontSize: '15px',
-    color: '#475569',
+    color: 'var(--secondary)',
     padding: '8px 0',
     paddingLeft: '24px',
     position: 'relative',
@@ -177,7 +184,7 @@ const styles = {
   bullet: {
     position: 'absolute',
     left: '0',
-    color: '#2563eb',
+    color: 'var(--primary)',
     fontWeight: 'bold',
   },
 
@@ -192,13 +199,13 @@ const styles = {
   calculatorTitle: {
     fontSize: '24px',
     fontWeight: '700',
-    color: '#1e293b',
+    color: 'var(--text-dark)',
     marginBottom: '8px',
     textAlign: 'center',
   },
   calculatorSubtitle: {
     fontSize: '16px',
-    color: '#64748b',
+    color: 'var(--text-light)',
     textAlign: 'center',
     marginBottom: '32px',
   },
@@ -214,22 +221,22 @@ const styles = {
     width: '12px',
     height: '12px',
     borderRadius: '50%',
-    backgroundColor: '#e2e8f0',
+    backgroundColor: 'var(--border-gray)',
     transition: 'all 0.3s ease',
   },
   stepDotActive: {
-    backgroundColor: '#2563eb',
+    backgroundColor: 'var(--primary)',
     width: '32px',
     borderRadius: '6px',
   },
 
   // Anzahl Card
   anzahlCard: {
-    backgroundColor: '#f8fafc',
+    backgroundColor: 'var(--bg-gray)',
     borderRadius: '12px',
     padding: '24px',
     marginBottom: '24px',
-    border: '2px solid #e2e8f0',
+    border: '2px solid var(--border-gray)',
   },
   anzahlHeader: {
     display: 'flex',
@@ -240,15 +247,15 @@ const styles = {
   anzahlLabel: {
     fontSize: '18px',
     fontWeight: '600',
-    color: '#1e293b',
+    color: 'var(--text-dark)',
     marginBottom: '4px',
   },
   anzahlSubtitle: {
     fontSize: '14px',
-    color: '#64748b',
+    color: 'var(--text-light)',
   },
   preisTag: {
-    backgroundColor: '#2563eb',
+    backgroundColor: 'var(--cta)',
     color: '#fff',
     padding: '8px 16px',
     borderRadius: '8px',
@@ -265,19 +272,19 @@ const styles = {
   },
   anzahlButton: {
     padding: '14px',
-    border: '2px solid #e2e8f0',
+    border: '2px solid var(--border-gray)',
     borderRadius: '8px',
     backgroundColor: '#fff',
     fontSize: '16px',
     fontWeight: '600',
-    color: '#1e293b',
+    color: 'var(--text-dark)',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
   },
   anzahlButtonActive: {
-    backgroundColor: '#eff6ff',
-    borderColor: '#2563eb',
-    color: '#2563eb',
+    backgroundColor: 'var(--bg-tint)',
+    borderColor: 'var(--primary)',
+    color: 'var(--primary)',
   },
 
   // Custom Input
@@ -287,7 +294,7 @@ const styles = {
   customInput: {
     width: '100%',
     padding: '14px',
-    border: '2px solid #2563eb',
+    border: '2px solid var(--primary)',
     borderRadius: '8px',
     fontSize: '16px',
     outline: 'none',
@@ -305,17 +312,17 @@ const styles = {
   },
   summeText: {
     fontSize: '15px',
-    color: '#64748b',
+    color: 'var(--text-light)',
   },
   summeWert: {
     fontSize: '20px',
-    color: '#1e293b',
+    color: 'var(--text-dark)',
   },
 
   // Result Box
   resultBox: {
-    backgroundColor: '#f0fdf4',
-    border: '2px solid #10b981',
+    backgroundColor: '#FDF9F3',
+    border: '2px solid var(--cta-soft)',
     borderRadius: '12px',
     padding: '24px',
     marginBottom: '24px',
@@ -323,7 +330,7 @@ const styles = {
   },
   resultLabel: {
     fontSize: '14px',
-    color: '#064e3b',
+    color: 'var(--text-dark)',
     marginBottom: '8px',
     textTransform: 'uppercase',
     letterSpacing: '0.5px',
@@ -332,12 +339,12 @@ const styles = {
   resultValue: {
     fontSize: '36px',
     fontWeight: '700',
-    color: '#065f46',
+    color: 'var(--text-dark)',
     marginBottom: '8px',
   },
   resultDetail: {
     fontSize: '14px',
-    color: '#047857',
+    color: 'var(--secondary)',
   },
 
   // Form
@@ -348,13 +355,13 @@ const styles = {
     display: 'block',
     fontSize: '14px',
     fontWeight: '600',
-    color: '#1e293b',
+    color: 'var(--text-dark)',
     marginBottom: '8px',
   },
   input: {
     width: '100%',
     padding: '12px 16px',
-    border: '2px solid #e2e8f0',
+    border: '2px solid var(--border-gray)',
     borderRadius: '8px',
     fontSize: '16px',
     outline: 'none',
@@ -363,7 +370,7 @@ const styles = {
   textarea: {
     width: '100%',
     padding: '12px 16px',
-    border: '2px solid #e2e8f0',
+    border: '2px solid var(--border-gray)',
     borderRadius: '8px',
     fontSize: '16px',
     outline: 'none',
@@ -381,8 +388,8 @@ const styles = {
   buttonPrimary: {
     flex: 1,
     padding: '16px 32px',
-    backgroundColor: '#2563eb',
-    color: '#fff',
+    backgroundColor: 'var(--cta)',
+    color: 'var(--cta-text)',
     border: 'none',
     borderRadius: '8px',
     fontSize: '16px',
@@ -393,8 +400,8 @@ const styles = {
   buttonSecondary: {
     padding: '16px 32px',
     backgroundColor: '#fff',
-    color: '#2563eb',
-    border: '2px solid #2563eb',
+    color: 'var(--primary)',
+    border: '2px solid var(--primary)',
     borderRadius: '8px',
     fontSize: '16px',
     fontWeight: '600',
@@ -402,7 +409,7 @@ const styles = {
     transition: 'all 0.2s ease',
   },
   buttonDisabled: {
-    backgroundColor: '#e2e8f0',
+    backgroundColor: 'var(--border-gray)',
     color: '#94a3b8',
     cursor: 'not-allowed',
   },
@@ -422,12 +429,12 @@ const styles = {
   successTitle: {
     fontSize: '28px',
     fontWeight: '700',
-    color: '#1e293b',
+    color: 'var(--text-dark)',
     marginBottom: '16px',
   },
   successText: {
     fontSize: '16px',
-    color: '#64748b',
+    color: 'var(--text-light)',
     marginBottom: '12px',
     lineHeight: '1.6',
   },
@@ -436,8 +443,13 @@ const styles = {
   footer: {
     textAlign: 'center',
     padding: '32px 20px',
-    color: '#64748b',
+    color: 'var(--text-light)',
     fontSize: '14px',
+  },
+  footerLink: {
+    color: 'var(--primary)',
+    textDecoration: 'none',
+    fontWeight: 600,
   },
   footerRow: {
     display: 'flex',
@@ -451,15 +463,15 @@ const styles = {
     height: '56px',
     objectFit: 'cover',
     borderRadius: '12px',
-    border: '1px solid #e2e8f0',
+    border: '1px solid var(--border-gray)',
     backgroundColor: '#fff',
   },
   footerPhotoPlaceholder: {
     width: '56px',
     height: '56px',
     borderRadius: '12px',
-    border: '1px solid #e2e8f0',
-    backgroundColor: '#f8fafc',
+    border: '1px solid var(--border-gray)',
+    backgroundColor: 'var(--bg-gray)',
     color: '#334155',
     display: 'flex',
     alignItems: 'center',
@@ -472,14 +484,14 @@ const styles = {
     lineHeight: '1.5',
   },
   footerStrong: {
-    color: '#1e293b',
+    color: 'var(--text-dark)',
     fontWeight: '600',
   },
 
   // Disclaimer
   disclaimer: {
     fontSize: '13px',
-    color: '#64748b',
+    color: 'var(--text-light)',
     marginTop: '16px',
     textAlign: 'center',
     lineHeight: '1.5',
@@ -621,7 +633,7 @@ export default function App() {
         {/* HEADER */}
         <header style={styles.header}>
           <div style={styles.logo}>🆘</div>
-          <h1 style={styles.title}>NC-Rescue</h1>
+          <h1 style={styles.title}>ISO 9001 Abweichungen: Einschätzung vom Profi</h1>
           <p style={styles.subtitle}>
             Fachliche Unterstützung bei ISO 9001 Abweichungen – 
             klar, verlässlich, erfahren
@@ -721,7 +733,7 @@ export default function App() {
                 value={nebenCount}
                 onChange={setNebenCount}
                 preis={PRICE_NEBEN}
-                color="#3b82f6"
+                color="var(--primary)"
               />
 
               <AnzahlWaehler
@@ -730,7 +742,7 @@ export default function App() {
                 value={hauptCount}
                 onChange={setHauptCount}
                 preis={PRICE_HAUPT}
-                color="#dc2626"
+                color="var(--danger)"
               />
 
               {totalCount > 0 && (
@@ -818,7 +830,7 @@ export default function App() {
                   type="tel"
                   value={formData.telefon}
                   onChange={(e) => setFormData({ ...formData, telefon: e.target.value })}
-                  placeholder="z.B. 0911 1234567"
+                  placeholder="z.B. 0911-49522541"
                 />
               </div>
 
@@ -878,10 +890,18 @@ export default function App() {
             <div style={styles.footerText}>
               <div style={styles.footerStrong}>Holger Grosser</div>
               <div>QM-Dienstleistungen • Simonstr. 14 • 90763 Fürth</div>
-              <div>Tel: 0911-49522541 • holger.grosser@qm-guru.de</div>
-              <a href="https://www.qm-guru.de" style={{color: '#2563eb', textDecoration: 'none'}}>
-                www.QM-Guru.de
-              </a>
+                <div>
+                  <a href={CONTACT.phoneHref} style={styles.footerLink}>
+                    Tel. {CONTACT.phoneDisplay}
+                  </a>
+                  {' • '}
+                  <a href={`mailto:${CONTACT.email}`} style={styles.footerLink}>
+                    {CONTACT.email}
+                  </a>
+                </div>
+                <a href={CONTACT.website} style={styles.footerLink}>
+                  www.QM-Guru.de
+                </a>
             </div>
           </div>
         </footer>

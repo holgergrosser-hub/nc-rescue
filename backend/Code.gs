@@ -352,6 +352,10 @@ function sendCustomerEmail(data, pdfBlob) {
   const firmaLine = data.firma ? ` (${data.firma})` : '';
 
   const mailtoSubject = encodeURIComponent(`Beauftragung ISO 9001 Abweichungen – Einschätzung vom Profi – ${data.firma || data.email}`);
+  const requiredDocsText =
+    `Benötigte Unterlagen (bitte mitschicken):\n` +
+    `- Abweichungsbericht des Auditors\n` +
+    `- Relevante QM-Dokumente (z.B. Handbuch / Prozesse)\n\n`;
   const mailtoBody = encodeURIComponent(
     `Hallo Holger,\n\n` +
     `hiermit beauftragen wir die Unterstützung „ISO 9001 Abweichungen: Einschätzung vom Profi“ gemäß Angebot (PDF im Anhang).\n\n` +
@@ -361,6 +365,7 @@ function sendCustomerEmail(data, pdfBlob) {
     `Telefon: ${data.telefon || '-'}\n\n` +
     `Umfang: ${itemsText}\n` +
     `Festpreis: ${formatCurrency(data.gesamt)} (inkl. MwSt.)\n\n` +
+    requiredDocsText +
     `Bitte kurze Rückmeldung zum weiteren Vorgehen.\n\n` +
     `Viele Grüße`
   );
@@ -380,6 +385,7 @@ Warum „ISO 9001 Abweichungen: Einschätzung vom Profi“:
 - Maßnahmen-Review: angemessen, wirksam, prüffähig
 
 So geht’s weiter (wenn Sie starten möchten):
+Bitte senden Sie mir folgende Unterlagen:
 1) Abweichungsbericht des Auditors
 2) Relevante QM-Dokumente (z.B. Handbuch/Prozesse)
 
@@ -562,12 +568,18 @@ function sendFollowUpEmail(data, day) {
 
   const anrede = data.ansprechpartner ? `Guten Tag ${data.ansprechpartner},` : 'Guten Tag,';
   const mailtoSubject = encodeURIComponent(`Beauftragung ISO 9001 Abweichungen – Einschätzung vom Profi – ${data.firma || data.email}`);
+  const requiredDocsText =
+    `Benötigte Unterlagen (bitte mitschicken):\n` +
+    `- Abweichungsbericht des Auditors\n` +
+    `- Relevante QM-Dokumente (z.B. Handbuch / Prozesse)\n\n`;
   const mailtoBody = encodeURIComponent(
     `Hallo Holger,\n\n` +
-    `hiermit beauftragen wir die Unterstützung „ISO 9001 Abweichungen: Einschätzung vom Profi“. Bitte senden Sie mir die nächsten Schritte / benötigten Unterlagen.\n\n` +
+    `hiermit beauftragen wir die Unterstützung „ISO 9001 Abweichungen: Einschätzung vom Profi“.\n\n` +
     `Firma: ${data.firma || '-'}\n` +
     `Ansprechpartner: ${data.ansprechpartner || '-'}\n` +
     `E-Mail: ${data.email || '-'}\n\n` +
+    requiredDocsText +
+    `Bitte kurze Rückmeldung zum weiteren Vorgehen.\n\n` +
     `Viele Grüße`
   );
   const mailtoHref = `mailto:${CONFIG.COMPANY_EMAIL}?subject=${mailtoSubject}&body=${mailtoBody}`;

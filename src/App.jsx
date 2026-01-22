@@ -496,13 +496,15 @@ export default function App() {
     try {
       const response = await fetch(SCRIPT_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        // Apps Script WebApps sind oft nicht CORS-freundlich (insb. Preflight/OPTIONS).
+        // Mit `no-cors` wird die Anfrage gesendet; die Response ist dann "opaque".
+        mode: 'no-cors',
         body: JSON.stringify(payload),
       });
 
-      if (response.ok) {
+      // Bei `no-cors` können wir den Status nicht lesen (opaque). Wenn die Anfrage
+      // ohne Exception rausging, behandeln wir das als Erfolg.
+      if (response.type === 'opaque' || response.ok) {
         setSubmitted(true);
       } else {
         alert('Es gab einen Fehler. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.');
